@@ -32,6 +32,32 @@ def generateTestPalettes(rN, gN, bN, num_palettes, num_colors = 5):
     # return it as an numpy array
     return np.asarray(sample)
 
+# hsv generator
+def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
+    """
+    :param hsvNorm: A dictionary defining the normal parameters of distrubtion for each channel of the graph
+    :param num_palettes: the number of palettes
+    :param num_colors: the amount of colors in each palette
+    :return: a 3d matrix containing the palettes and all of their colors (with their values)
+    """
+
+    # wrap the hue value around 360
+    # keep the sat and value values under 100
+
+    sample = []
+    for n in range(num_palettes):
+        palette = []
+        for c in range(num_colors):
+            palette.append([int(np.random.normal(hsvNorm["hue"][0], hsvNorm["hue"][1])) % 360,
+                            min(int(np.random.normal(hsvNorm["saturation"][0], hsvNorm["saturation"][1])), 100),
+                            min(int(np.random.normal(hsvNorm["value"][0], hsvNorm["value"][1])), 100)])
+
+        sample.append(palette)
+
+    return np.asarray(sample)
+
+
+
 def plotColorsInSample(sample_unzipped, raw_sample):
     """
     :param sample_unzipped: the sample generated in the generateTestPalettes function (unzipped)
@@ -48,8 +74,20 @@ def main():
   # details of the distributions
 
   """
-  Gives a pretty cool purple representation of the spectrum
+  Gives a pretty cool purple representation of the spectrum:
+
+  instead of using RGB, lets use HSV
+  - will need to create a separate generator
+
   """
+
+  # dictionary for the HSV
+  hsvNorm = {
+      "hue": (120, 20),
+      "saturation": (70, 10), # in percentages
+      "value": (50, 15) # in percentages
+  }
+
   rNorm = {
       'mean': 150,
       'std': 20
