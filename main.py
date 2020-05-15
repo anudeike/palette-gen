@@ -103,14 +103,17 @@ def main():
       'std': 50
   }
 
-  test_palettes = generateTestPalettes(rNorm, gNorm, bNorm, num_palettes=100)
+  test_pals = generateTestPalettesHSV(hsvNorm, 10)
+  print(test_pals)
 
-  # flatten by only one dimension should get shape of (10, 3)
-  flat = test_palettes.reshape(-1, test_palettes.shape[-1])
-  print(flat.shape)
-
-  # plot the flattened array
-  plotColorsInSample(list(zip(*flat)), flat)
+  # test_palettes = generateTestPalettes(rNorm, gNorm, bNorm, num_palettes=100)
+  #
+  # # flatten by only one dimension should get shape of (10, 3)
+  # flat = test_palettes.reshape(-1, test_palettes.shape[-1])
+  # print(flat.shape)
+  #
+  # # plot the flattened array
+  # plotColorsInSample(list(zip(*flat)), flat)
 
 
 
