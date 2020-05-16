@@ -39,6 +39,9 @@ def generateTestPalettes(rN, gN, bN, num_palettes, num_colors = 5):
 # hsv generator
 def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
     """
+    format:
+    [ h1, s1, v1, h2, s2, v2, h3, s3, v3, h4, s4, v4, h5, s5, v5, label ]
+
     :param hsvNorm: A dictionary defining the normal parameters of distrubtion for each channel of the graph
     :param num_palettes: the number of palettes
     :param num_colors: the amount of colors in each palette
@@ -48,19 +51,30 @@ def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
     # wrap the hue value around 360
     # keep the sat and value values under 100
 
+    # this is interesting
     sample = []
     for n in range(num_palettes // 2):
         palette = []
+        # for each color
         for c in range(num_colors):
 
             # format: [ h, s, v, 1] 1 denotes that it is within the target distribution
             palette.append([int(np.random.normal(hsvNorm["hue"][0], hsvNorm["hue"][1])) % 360,
                             min(int(np.random.normal(hsvNorm["saturation"][0], hsvNorm["saturation"][1])), 100),
-                            min(int(np.random.normal(hsvNorm["value"][0], hsvNorm["value"][1])), 100),
-                            1])
+                            min(int(np.random.normal(hsvNorm["value"][0], hsvNorm["value"][1])), 100)])
 
+        # flatten the array
+        palette = np.asarray(palette)
+        palette = palette.flatten()
+        #print("this is: " + str(palette))
+
+        # add the label
+        palette = np.concatenate((palette, [1]))
+
+        # add it to the sample
         sample.append(palette)
 
+    # adding noise to the sample
     for n in range(num_palettes // 2):
         palette = []
         for c in range(num_colors):
@@ -68,9 +82,16 @@ def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
             # format: [ h, s, v, 0] 1 denotes that it is within the target distribution
             palette.append([int(np.random.normal(180, 90)) % 360,
                             min(abs(int(np.random.normal(50, 25))), 100),
-                            min(abs(int(np.random.normal(50, 25))), 100),
-                            0])
+                            min(abs(int(np.random.normal(50, 25))), 100)])
 
+        # flatten the array
+        palette = np.asarray(palette)
+        palette = palette.flatten()
+
+        # add the label
+        palette = np.concatenate((palette, [0]))
+
+        # print("this is noise: " + str(palette))
 
         sample.append(palette)
 
@@ -101,6 +122,7 @@ def main():
 
   """
 
+
   # dictionary for the HSV
   hsvNorm = {
       "hue": (120, 20),
@@ -108,20 +130,20 @@ def main():
       "value": (50, 15) # in percentages
   }
 
-  rNorm = {
-      'mean': 150,
-      'std': 20
-  }
-
-  gNorm = {
-      'mean': 20,
-      'std': 10
-  }
-
-  bNorm = {
-      'mean': 150,
-      'std': 50
-  }
+  # rNorm = {
+  #     'mean': 150,
+  #     'std': 20
+  # }
+  #
+  # gNorm = {
+  #     'mean': 20,
+  #     'std': 10
+  # }
+  #
+  # bNorm = {
+  #     'mean': 150,
+  #     'std': 50
+  # }
 
   test_pals = generateTestPalettesHSV(hsvNorm, 10)
   print(test_pals)
