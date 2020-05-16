@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D # for showing a 3d representation
 
+# keras imports
+
+
 # set up the figure
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -29,6 +32,7 @@ def generateTestPalettes(rN, gN, bN, num_palettes, num_colors = 5):
 
         sample.append(palette)
 
+
     # return it as an numpy array
     return np.asarray(sample)
 
@@ -45,12 +49,28 @@ def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
     # keep the sat and value values under 100
 
     sample = []
-    for n in range(num_palettes):
+    for n in range(num_palettes // 2):
         palette = []
         for c in range(num_colors):
+
+            # format: [ h, s, v, 1] 1 denotes that it is within the target distribution
             palette.append([int(np.random.normal(hsvNorm["hue"][0], hsvNorm["hue"][1])) % 360,
                             min(int(np.random.normal(hsvNorm["saturation"][0], hsvNorm["saturation"][1])), 100),
-                            min(int(np.random.normal(hsvNorm["value"][0], hsvNorm["value"][1])), 100)])
+                            min(int(np.random.normal(hsvNorm["value"][0], hsvNorm["value"][1])), 100),
+                            1])
+
+        sample.append(palette)
+
+    for n in range(num_palettes // 2):
+        palette = []
+        for c in range(num_colors):
+
+            # format: [ h, s, v, 0] 1 denotes that it is within the target distribution
+            palette.append([int(np.random.normal(180, 90)) % 360,
+                            min(abs(int(np.random.normal(50, 25))), 100),
+                            min(abs(int(np.random.normal(50, 25))), 100),
+                            0])
+
 
         sample.append(palette)
 
@@ -105,6 +125,7 @@ def main():
 
   test_pals = generateTestPalettesHSV(hsvNorm, 10)
   print(test_pals)
+
 
   # test_palettes = generateTestPalettes(rNorm, gNorm, bNorm, num_palettes=100)
   #
