@@ -52,7 +52,13 @@ def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
     # keep the sat and value values under 100
 
     # this is interesting
-    sample = []
+
+    # data set
+
+
+    X = []
+    Y = []
+
     for n in range(num_palettes // 2):
         palette = []
         # for each color
@@ -69,10 +75,13 @@ def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
         #print("this is: " + str(palette))
 
         # add the label
-        palette = np.concatenate((palette, [1]))
+        Y = np.concatenate((Y, [1]))
 
-        # add it to the sample
-        sample.append(palette)
+
+        #palette = np.concatenate((palette, [1]))
+
+        # add it to the X data
+        X.append(palette)
 
     # adding noise to the sample
     for n in range(num_palettes // 2):
@@ -89,13 +98,13 @@ def generateTestPalettesHSV(hsvNorm, num_palettes, num_colors = 5):
         palette = palette.flatten()
 
         # add the label
-        palette = np.concatenate((palette, [0]))
+        Y = np.concatenate((Y, [0]))
 
         # print("this is noise: " + str(palette))
 
-        sample.append(palette)
+        X.append(palette)
 
-    return np.asarray(sample)
+    return np.asarray(X), np.asarray(Y)
 
 
 
@@ -130,33 +139,10 @@ def main():
       "value": (50, 15) # in percentages
   }
 
-  # rNorm = {
-  #     'mean': 150,
-  #     'std': 20
-  # }
-  #
-  # gNorm = {
-  #     'mean': 20,
-  #     'std': 10
-  # }
-  #
-  # bNorm = {
-  #     'mean': 150,
-  #     'std': 50
-  # }
-
   test_pals = generateTestPalettesHSV(hsvNorm, 10)
-  print(test_pals)
 
-
-  # test_palettes = generateTestPalettes(rNorm, gNorm, bNorm, num_palettes=100)
-  #
-  # # flatten by only one dimension should get shape of (10, 3)
-  # flat = test_palettes.reshape(-1, test_palettes.shape[-1])
-  # print(flat.shape)
-  #
-  # # plot the flattened array
-  # plotColorsInSample(list(zip(*flat)), flat)
+  # (X, Y)
+  print(test_pals[1])
 
 
 
