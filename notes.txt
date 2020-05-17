@@ -1,0 +1,39 @@
+=== TEST 1
+# set the alpha
+    alpha = 10
+
+    # setting the size of the hiddenLayer
+    hiddenSize = 3
+
+    # randomly initialize our weights with mean 0
+    synapse_0 = 2 * np.random.randn(X.shape[1], hiddenSize) - 1
+    synapse_1 = 2 * np.random.randn(hiddenSize, y.shape[1]) - 1
+
+ERROR (after 9000 iterations) = 0.0034696244237444273
+
+=== TEST 2 Xavier Initialization
+# set the alpha
+    alpha = 10
+
+    # setting the size of the hiddenLayer
+    hidden_size = 3
+
+    # xavier initlization
+    synapse_0 = np.random.randn(X.shape[1], hidden_size) * np.sqrt(1 / (X.shape[1] - 1))
+    synapse_1 = np.random.randn(hidden_size, y.shape[1]) * np.sqrt(1 / (X.shape[1] - 1))
+
+ERROR (after 9000 iterations) = 0.003325147964737822
+-- seems to just edge the first test out?
+
+
+===== OUTPUT OF XAVIER
+Error after 0 iterations:0.4946792580099207
+Error after 1000 iterations:0.027512261536369795
+Error after 2000 iterations:0.008883189876846732
+Error after 3000 iterations:0.006509566571686436
+Error after 4000 iterations:0.005379859699239312
+Error after 5000 iterations:0.004684250655334964
+Error after 6000 iterations:0.004200434893342382
+Error after 7000 iterations:0.0038387900483164267
+Error after 8000 iterations:0.0035552215256505716
+Error after 9000 iterations:0.003325147964737822
