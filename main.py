@@ -167,22 +167,13 @@ def leaky_relu(x, deriv=False, leakiness = 0.01):
 
 def network(X, Y, hidden_size = 5, alpha = 10.0):
 
-    # much of this code it taken from I am trask
-    # X = np.array([[0, 0, 1],
-    #               [0, 1, 1],
-    #               [1, 0, 1],
-    #               [1, 1, 1]]) #input dataset
-
-    # output dataset
-    # y = np.array([[0,
-    #                1,
-    #                1,
-    #                0]]).T
-
     y = Y.T # transpose it first
+
+    # seed for determinism
     np.random.seed(1)
 
     print(y.shape)
+
     # xavier initlization
     synapse_0 = np.random.randn(X.shape[1], hidden_size) * np.sqrt(1 / (X.shape[1] - 1))
     synapse_1 = np.random.randn(hidden_size, y.shape[1]) * np.sqrt(1 / (X.shape[1] - 1))
@@ -313,11 +304,6 @@ def main():
 
   network(test_pals[0], test_pals[1], hidden_size=10, alpha=0.1) # the Y array is transposed later
 
-  # ex = np.array([[0.41287266, -0.73082379, 0.78215209],
-  #                [0.76983443, 0.46052273, 0.4283139],
-  #                [-0.18905708, 0.57197116, 0.53226954]])
-  #
-  # print(l_relu(ex))
 
 if __name__ == "__main__":
   main()
