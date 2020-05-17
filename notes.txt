@@ -44,3 +44,8 @@ apply a function to each element in a matrix
 - ReLU does not seems to be a good idea of my project because it is better for convolutional and LSTM?
 
 - setting the hidden size as 1 less than the number of features is a good starting point
+
+# this is how you implement the function leaky relu! -Definitely gonna make to make content about this
+np.multiply(x[x <= 0], leakiness)
+
+# it seems to me like its not entirely useful for this use case
