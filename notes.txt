@@ -37,3 +37,10 @@ Error after 6000 iterations:0.004200434893342382
 Error after 7000 iterations:0.0038387900483164267
 Error after 8000 iterations:0.0035552215256505716
 Error after 9000 iterations:0.003325147964737822
+
+- There are things called numpy universal fucntions that help
+apply a function to each element in a matrix
+
+- ReLU does not seems to be a good idea of my project because it is better for convolutional and LSTM?
+
+- setting the hidden size as 1 less than the number of features is a good starting point

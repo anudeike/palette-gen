@@ -130,25 +130,42 @@ def sigmoid(x, deriv=False):
     output = 1 / (1 + np.exp(-x))
     return output
 
+
 # define the relu function
 def relu(x, deriv = False):
+    """
+    :param x: the input matrix
+    :param deriv: whether the derivative. default is False
+    :return: returns a transformed numpy matrix
+    """
+
     # this should work?
     if deriv:
-        return 1 * (x > 0)
+        x[x <= 0] = 0
+        x[x > 0] = 1
+        return x
 
-    return x * (x > 0)
+    # use a numpy universal function like np.maximum -> bunch online
+    return np.maximum(0, x)
 
 # define leaky relu
-def leaky_relu(x):
-    return
+def leaky_relu(x, deriv=True, leakiness = 0.0):
+
+    # main function
+
+    # this works!
+    x[x <= 0] = np.multiply(x[x <= 0], leakiness)
+
+    return x
 
 # create a function to generate the weights
 def initialize_weights():
     pass
 
-# much of this code it taken from I am trask
+
 def network():
 
+    # much of this code it taken from I am trask
     # input dataset
     X = np.array([[0, 0, 1],
                   [0, 1, 1],
@@ -174,6 +191,8 @@ def network():
     # xavier initlization
     synapse_0 = np.random.randn(X.shape[1], hidden_size) * np.sqrt(1 / (X.shape[1] - 1))
     synapse_1 = np.random.randn(hidden_size, y.shape[1]) * np.sqrt(1 / (X.shape[1] - 1))
+
+
 
     for j in range(10000):
 
@@ -205,7 +224,7 @@ def network():
         synapse_0 -= alpha * (layer_0.T.dot(layer_1_delta))
 
     print("output after training: ")
-    print(layer_1.shape)
+    print(layer_2.shape)
 
 # much of this code it taken from I am trask
 def network_relu(leaky_relu = False):
@@ -227,7 +246,7 @@ def network_relu(leaky_relu = False):
 
 
     # set the alpha
-    alpha = 10
+    alpha = 0.1
 
     # setting the size of the hiddenLayer
     hidden_size = 3
@@ -240,8 +259,8 @@ def network_relu(leaky_relu = False):
 
         # Feed forward through layers 0, 1, and 2
         layer_0 = X
-        layer_1 = sigmoid(np.dot(layer_0, synapse_0))
-        layer_2 = sigmoid(np.dot(layer_1, synapse_1))
+        layer_1 = relu(np.dot(layer_0, synapse_0))
+        layer_2 = relu(np.dot(layer_1, synapse_1))
 
         # how much did we miss the target value?
         layer_2_error = layer_2 - y
@@ -252,21 +271,21 @@ def network_relu(leaky_relu = False):
 
         # in what direction is the target value?
         # were we really sure? if so, don't change too much.
-        layer_2_delta = layer_2_error * sigmoid(layer_2, True)
+        layer_2_delta = layer_2_error * relu(layer_2, True)
 
         # how much did each l1 value contribute to the l2 error (according to the weights)?
         layer_1_error = layer_2_delta.dot(synapse_1.T)
 
         # in what direction is the target l1?
         # were we really sure? if so, don't change too much.
-        layer_1_delta = layer_1_error * sigmoid(layer_1, True)
+        layer_1_delta = layer_1_error * relu(layer_1, True)
 
         # gradient descent happens here
         synapse_1 -= alpha * (layer_1.T.dot(layer_2_delta))
         synapse_0 -= alpha * (layer_0.T.dot(layer_1_delta))
 
     print("output after training: ")
-    print(layer_1.shape)
+    print(layer_2)
 
 
 
@@ -290,16 +309,20 @@ def main():
       "value": (50, 15) # in percentages
   }
 
-  test_pals = generateTestPalettesHSV(hsvNorm, 10)
+  #test_pals = generateTestPalettesHSV(hsvNorm, 10)
 
   # (X, Y)
-  print(test_pals[1])
+  #print(test_pals[1])
 
   # call the network function
-  network()
+  #
+  #network_relu()
 
+  ex = np.array([[0.41287266, -0.73082379, 0.78215209],
+                 [0.76983443, 0.46052273, 0.4283139],
+                 [-0.18905708, 0.57197116, 0.53226954]])
 
-
+  print(leaky_relu(ex))
 
 if __name__ == "__main__":
   main()
