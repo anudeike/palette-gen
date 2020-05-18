@@ -5,12 +5,19 @@ var fs = require("fs");
 const express = require('express');
 const app = express();
 const port = 5000;
+const cors = require('cors');
 
 // create the server
 app.get('/', (req, res) => {
-    res.send('Hello World')
+    res.sendFile(process.cwd() + '/static/index.html')
 });
 
+// create another endpoint
+app.get('/getPalette', (req, res) => {
+    res.send
+})
+
+// essentially we create an endpoint here and then call it in vuejs
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
 
