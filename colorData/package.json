@@ -9,6 +9,7 @@
   "author": "Ikechukwu Anude",
   "license": "ISC",
   "dependencies": {
+    "chroma-js": "^2.1.0",
     "colorthief": "^2.3.0"
   }
 }

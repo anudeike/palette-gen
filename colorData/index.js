@@ -3,9 +3,10 @@ var ColorThief = require('colorthief');
 var fs = require("fs");
 
 // the color thief module only needs a path to the photos
+const path = "sunset_example.png"
 
 // get the colors
-ColorThief.getColor('sunset_example.png').then(c => {
+ColorThief.getPalette(path, 5).then(c => {
     console.log(c);
 }).catch(e => {
     console.log(e);
