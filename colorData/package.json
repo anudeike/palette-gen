@@ -1,0 +1,14 @@
+{
+  "name": "colordata",
+  "version": "1.0.0",
+  "description": "will fetch the color data from a bunch of photos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ikechukwu Anude",
+  "license": "ISC",
+  "dependencies": {
+    "color-thief": "^2.2.5"
+  }
+}
