@@ -9,6 +9,6 @@
   "author": "Ikechukwu Anude",
   "license": "ISC",
   "dependencies": {
-    "color-thief": "^2.2.5"
+    "colorthief": "^2.3.0"
   }
 }
