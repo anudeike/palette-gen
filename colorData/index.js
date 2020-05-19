@@ -44,7 +44,12 @@ app.get('/getPalette', (req, res) => {
                 }
     
                 console.log(transformedPaletteData);
-                palettesHex.push(transformedPaletteData);
+
+                // get random string as id
+                var id = Math.random().toString(36).substring(2, 15);
+
+                palettesHex.push({id, transformedPaletteData});
+
             }).catch(e => {
                 console.log(e);
             })

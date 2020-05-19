@@ -18,15 +18,15 @@
     <div id="app">
         <v-app>
             <v-content>
-                <v-container>
-                    <v-row v-for"p in info" :key="p">
-                        <v-col v-for="c in p" :key="c">
-                            <v-card :color=c>
-                                <v-card-text>
-                                    {{ c }}
+                <v-container> 
+                    <v-row v-for="pal in info" :key="pal.id">
+                        <v-col v-for="color in pal.transformedPaletteData" :key="pal.id">
+                            <v-card :color=color>
+                                <v-card-text class="white--text">
+                                    {{ color }}
                                 </v-card-text>
                             </v-card>
-                        </v-col>
+                        </v-col> 
                     </v-row>    
                 </v-container>
             </v-content>
@@ -48,6 +48,7 @@
             mounted () {
                 axios.get('/getPalette').then((resp) => {
                     this.info = resp.data;
+                    console.log(this.info);
                 })
             }
         });
