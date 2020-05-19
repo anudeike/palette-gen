@@ -164,6 +164,10 @@ def leaky_relu(x, deriv=False, leakiness = 0.01):
 
     return x
 
+def initialize_weights(Xshape, Yshape, hidden_size, mode = "Xavier"):
+    if mode == "Xavier":
+        s1 = np.random.randn(Xshape[1], hidden_size) * np.sqrt(1 / (Xshape[1] - 1))
+        s2 = np.random.randn(hidden_size, Yshape[1]) * np.sqrt(1 / (Xshape[1] - 1))
 
 def network(X, Y, hidden_size = 5, alpha = 10.0):
 
@@ -193,6 +197,9 @@ def network(X, Y, hidden_size = 5, alpha = 10.0):
         # print the error after a certain about of iterations
         if (j % 1000) == 0:
             print ("Error after " + str(j) + " iterations:" + str(np.mean(np.abs(layer_2_error))))
+            # print("Full Error Report: ")
+            # print(layer_2_error)
+            # print()
 
         # in what direction is the target value?
         # were we really sure? if so, don't change too much.
