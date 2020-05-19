@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const port = 5000;
 const cors = require('cors');
+const path = require('path');
 
 // use cors
 app.use(cors());
@@ -17,22 +18,53 @@ app.get('/', (req, res) => {
 
 // create another endpoint
 app.get('/getPalette', (req, res) => {
-    path = process.cwd() + '/photo_data/sunset/sunset1.jfif'
 
-    ColorThief.getPalette(path, 5).then(c => {
+    const dir = path.join(__dirname, "/photo_data/sunset")
+
+    // get paths
+    paths = fs.readdirSync(dir)
+
+    // variable to hold all of the palettes
+    var forLoop = async _ => {
+        console.log("start: ")
+
+        let palettesHex = []
+
+        // for each path
+        for(var j = 0; j < paths.length; j++)
+        {
+            // get each palette
+            await ColorThief.getPalette(path.join(__dirname, "/photo_data/sunset/", paths[j]), 5).then((palette) => {
+
+                var transformedPaletteData = []
+        
+                // create the chroma objects out of each of palettes
+                for(var i = 0; i < palette.length; i++){
+                    transformedPaletteData.push(chroma(palette[i]).hex())
+                }
     
-        var chromas = []
-    
-        // create the chroma objects out of each of them
-        for(var i = 0; i < c.length; i++){
-            chromas.push(chroma(c[i]).hex())
+                console.log(transformedPaletteData);
+                palettesHex.push(transformedPaletteData);
+            }).catch(e => {
+                console.log(e);
+            })
         }
 
-        console.log(chromas);
-        res.send(chromas);
-    }).catch(e => {
-        console.log(e);
-    })
+        console.log(palettesHex);
+        console.log("end");
+        res.send(palettesHex);
+        
+    }
+
+forLoop();
+
+
+    
+    
+
+    //console.log(paletteData)
+
+
 })
 
 // essentially we create an endpoint here and then call it in vuejs

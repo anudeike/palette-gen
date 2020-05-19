@@ -19,11 +19,11 @@
         <v-app>
             <v-content>
                 <v-container>
-                    <v-row>
-                        <v-col v-for="i in info" :key="i">
-                            <v-card :color=i>
+                    <v-row v-for"p in info" :key="p">
+                        <v-col v-for="c in p" :key="c">
+                            <v-card :color=c>
                                 <v-card-text>
-                                    {{ i }}
+                                    {{ c }}
                                 </v-card-text>
                             </v-card>
                         </v-col>
