@@ -40,10 +40,10 @@ app.get('/getPalette', (req, res) => {
         
                 // create the chroma objects out of each of palettes
                 for(var i = 0; i < palette.length; i++){
-                    transformedPaletteData.push(chroma(palette[i]).hex())
+                    transformedPaletteData.push(chroma(palette[i]).hsl())
                 }
     
-                console.log(transformedPaletteData);
+                //console.log(transformedPaletteData);
 
                 // get random string as id
                 var id = Math.random().toString(36).substring(2, 15);
